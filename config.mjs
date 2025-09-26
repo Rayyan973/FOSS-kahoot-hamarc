@@ -3,7 +3,7 @@ export const WEBSOCKET_SERVER_PORT = 5505
 
 const QUIZZ_CONFIG = {
   password: "PASSWORD",
-  subject: "Adobe",
+  subject: "Tech Trivia",
   questions: [
     {
       question: "What does the .com in a website address usually mean?",
