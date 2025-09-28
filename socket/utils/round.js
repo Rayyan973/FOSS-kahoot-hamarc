@@ -52,6 +52,10 @@ export const startRound = async (game, io, socket) => {
 
   if (!game.started) return
 
+
+  //this part is the logic for the points system
+  const shouldGrade = game.currentQuestion >= 2 //after three questions are over this will become false ig
+
   game.players.map(async (player) => {
     let playerAnswer = await game.playersAnswer.find((p) => p.id === player.id)
 
@@ -60,24 +64,29 @@ export const startRound = async (game, io, socket) => {
       : false
 
     let points =
-      (isCorrect && Math.round(playerAnswer && playerAnswer.points)) || 0
+      (shouldGrade && isCorrect && Math.round(playerAnswer && playerAnswer.points)) || 0 //added the 'shouldGrade && ' as an extra condition
 
-    player.points += points
+    if(shouldGrade) {
+      player.points += points
+    }
 
     let sortPlayers = game.players.sort((a, b) => b.points - a.points)
 
     let rank = sortPlayers.findIndex((p) => p.id === player.id) + 1
     let aheadPlayer = sortPlayers[rank - 2]
 
+    //updated this logic as well to display a special message
     io.to(player.id).emit("game:status", {
       name: "SHOW_RESULT",
       data: {
         correct: isCorrect,
-        message: isCorrect ? "Nice !" : "Too bad",
+        message: shouldGrade //this part is different
+          ? (isCorrect ? "Nice !" : "Too bad")
+          : "This was a demo question, no points awarded", //conditional statements broo
         points: points,
         myPoints: player.points,
-        rank,
-        aheadOfMe: aheadPlayer ? aheadPlayer.username : null,
+        rank: shouldGrade ? rank : null, //not to show rank on demo rounds
+        aheadOfMe: shouldGrade ? (aheadPlayer ? aheadPlayer.username : null) : null,
       },
     })
   })
