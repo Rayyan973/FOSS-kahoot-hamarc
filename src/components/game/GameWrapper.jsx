@@ -37,12 +37,13 @@ export default function GameWrapper({ children, textNext, onNext, manager }) {
 
   return (
     <section className="relative flex min-h-screen w-full flex-col justify-between">
-      <div className="fixed left-0 top-0 -z-10 h-full w-full bg-orange-600 opacity-70">
+      <div className="fixed left-0 top-0 -z-10 h-full w-full">
         <Image
-          className="pointer-events-none h-full w-full object-cover opacity-60"
+          className="pointer-events-none h-full w-full object-cover"
           src={background}
           alt="background"
         />
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-black/30" />
       </div>
 
       <div className="flex w-full justify-between p-4">

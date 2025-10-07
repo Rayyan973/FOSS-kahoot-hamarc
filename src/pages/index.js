@@ -40,8 +40,8 @@ export default function Home() {
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center">
       <div className="absolute h-full w-full overflow-hidden">
-        <div className="absolute -left-[15vmin] -top-[15vmin] min-h-[75vmin] min-w-[75vmin] rounded-full bg-primary/15"></div>
-        <div className="absolute -bottom-[15vmin] -right-[15vmin] min-h-[75vmin] min-w-[75vmin] rotate-45 bg-primary/15"></div>
+        <div className="absolute -left-[15vmin] -top-[15vmin] min-h-[75vmin] min-w-[75vmin] rounded-full bg-white/10"></div>
+        <div className="absolute -bottom-[15vmin] -right-[15vmin] min-h-[75vmin] min-w-[75vmin] rotate-45 bg-white/10"></div>
       </div>
 
       <Image src={logo} className="mb-6 h-32" alt="logo" />
