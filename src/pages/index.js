@@ -11,18 +11,29 @@ import Room from "@/components/game/join/Room"
 import Username from "@/components/game/join/Username"
 import { useSocketContext } from "@/context/socket"
 import toast from "react-hot-toast"
+import { useRouter } from "next/router"
 
 export default function Home() {
   const { player, dispatch } = usePlayerContext()
   const { socket } = useSocketContext()
+  const router = useRouter()
 
   useEffect(() => {
     socket.on("game:errorMessage", (message) => {
       toast.error(message)
     })
 
+    const onRejoinSuccess = ({ username, room }) => {
+      dispatch({ type: "JOIN", payload: room })
+      dispatch({ type: "LOGIN", payload: username })
+      router.replace("/game")
+    }
+
+    socket.on("game:rejoinSuccess", onRejoinSuccess)
+
     return () => {
       socket.off("game:errorMessage")
+      socket.off("game:rejoinSuccess", onRejoinSuccess)
     }
   }, [])
 
